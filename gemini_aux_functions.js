@@ -1,3 +1,16 @@
+
+/**
+ * Sends a text prompt to the Google Gemini API for processing.
+ *
+ * This function constructs an API request to the Gemini API, sending the provided 
+ * text as input. It sets the necessary headers and request body for the API call.
+ * 
+ * Note: This function assumes the API key is stored in the script properties
+ * under the key 'api_key'.
+ *
+ * @param {string} text The text prompt to send to the Gemini API.
+ * @returns {Object} The options object to be used with UrlFetchApp for making the API call.
+ */
 function TalkToGemini(text) {
   // --- GCP Gemini API Call ---
  
@@ -44,6 +57,16 @@ function TalkToGemini(text) {
   }
 }
 
+/**
+ * Builds a complete promptfor an Gemini based on the desired action and user-provided information.
+ *
+ * @param {string} actionMethodName - The type of action to be performed (e.g., "planWeekAhead", "summariseLastWeek", "suggestAgenda").
+ * @param {string} userData - Data about the user, relevant to the action that can include mail, caneldar, tasks and user documents.
+ * @param {string} userIdentity - A description of the user's role or identity.
+ * @param {string} agentIdentity - A description of the AI agent's role or identity.
+ * @param {string} customPrompt - Additional instructions or context provided by the user.
+ * @returns {string} The full set of instructions for the AI agent.
+ */
 function buildInstruction (actionMethodName, userData, userIdentity, agentIdentity, customPrompt) {
     console.log(`action:${actionMethodName} \n userdata: ${userData} \n userIdentity: ${userIdentity}`)
     var agentIdentityConcat = agentIdentity

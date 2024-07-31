@@ -1,48 +1,12 @@
-// function getMeetings(days, timeframe) {
-//   const calendar = CalendarApp.getDefaultCalendar();
-//   const now = new Date();
-//   let startTime, endTime;
 
-//   if (timeframe == "past") {
-//     startTime = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
-//     console.log (`Start time of past is ${startTime}`)
-//     endTime = now;
-//   } else if (timeframe == "future") {
-//     startTime = now;
-//     endTime = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
-//     console.log (`End time of future is ${endTime}`)
-//   } else {
-//     throw new Error("Invalid timeframe. Use 'past' or 'future'.");
-//   }
-//   console.log ("Fetching Events from Calendar")
-//   const events = calendar.getEvents(startTime, endTime);
-//   console.log ("Events Fetched, start processing meetings")
-//   var meeting_text = "";
-
-//   for (const event of events) {
-//     var status = event.getMyStatus();
-//     var agenda = event.getDescription()
-
-//     if (status == "YES" || status == "MAYBE" || status == "OWNER") {
-
-//       // if meeting has no agenda and no attendee it does not count
-//       if(agenda.length < 1 && event.getGuestList().length < 1){
-        
-//       } else {
-
-//       meeting_text += "\n\nMeeting Title: " + event.getTitle() + "\n";
-//       meeting_text += "Attendee emails: " + event.getCreators(); + ", " + event.getGuestList().map(guest => guest.getEmail()).join(", ")  + "\n";
-//       meeting_text += "Attendee names: " + event.getGuestList().map(guest => guest.getName()).join(", ")  + "\n";
-//       meeting_text += "Meeting Agenda: " + agenda + "\n";
-
-//       }
-//     }
-//     console.log ("Meeting processed")
-//   }
-
-//   return meeting_text;
-// }
-
+/**
+ * Fetches meetings from the primary calendar within a specified timeframe.
+ *
+ * @param {number} days - The number of days in the past or future to fetch meetings for.
+ * @param {string} timeframe - Either "past" or "future" indicating the time direction.
+ * @param {string} name - (Optional) The name of a user that should be present in the meeting.
+ * @returns {Array} An array of meeting events.
+ */
 function getMeetingsFast(days, timeframe, name) {
   const calendarId = 'primary';
   const now = new Date();
@@ -113,11 +77,12 @@ function getMeetingsFast(days, timeframe, name) {
 
 }
 
-
-
-
-
-
+/**
+ * Retrieves the last N priority inbox threads and returns their details as a concatenated string.
+ *
+ * @param {number} N The number of priority inbox threads to retrieve.
+ * @return {string} A string containing the details of the retrieved email threads.
+ */
 function getLastNPriorityInboxThreads(N) {
   var threads = GmailApp.getPriorityInboxThreads(0, N); 
 
@@ -140,7 +105,12 @@ function getLastNPriorityInboxThreads(N) {
   return emailString; // Return the concatenated string of email details
 }
 
-
+/**
+ * Fetches important email threads from Gmail within a specified number of days.
+ * 
+ * @param {number} numDays - Number of days to look back for important emails (default: 10).
+ * @returns {string} - A formatted string containing details of important email threads.
+ */
 function getImportantEmailThreads(numDays=10) {
   const startDate = new Date();
   startDate.setDate(startDate.getDate() - numDays);
@@ -167,28 +137,14 @@ function getImportantEmailThreads(numDays=10) {
   return emailThreadsString;
 }
 
-// function extractTextFromDocs(docIds, startChar, endChar) {
-//   let concatenatedText = "";
-
-//   for (let i = 0; i < docIds.length; i++) {
-//     let concatenatedText = "START OF NEW DOCUMENT: ";
-//     let doc = DocumentApp.openById(docIds[i]);
-//     let body = doc.getBody();
-
-//     // Get all the text content
-//     let text = body.getText();
-
-//     // Extract only a substring of characters
-//     let extractedText = text.substring(startChar, endChar);
-
-//     // Concatenate the extracted text to the result
-//     concatenatedText += extractedText;
-//     concatenatedText += ". END OF THIS DOCUMENT \n \n"
-//   }
-
-//   return concatenatedText;
-// }
-
+/**
+ * Extracts text from Google Docs within a specified character range.
+ * 
+ * @param {Array<string>} docIds - Array of Google Docs IDs.
+ * @param {number} startChar - Starting character index for extraction.
+ * @param {number} endChar - Ending character index for extraction.
+ * @returns {string} - Concatenated text extracted from the documents.
+ */
 function extractTextFromDocs(docIds, startChar, endChar) {
   let concatenatedText = "";
 
@@ -212,10 +168,11 @@ function extractTextFromDocs(docIds, startChar, endChar) {
   return concatenatedText;
 }
 
-
-
-
-
+/**
+ * Lists all incomplete tasks from Google Tasks.
+ * 
+ * @returns {string} - A formatted string containing details of incomplete tasks.
+ */
 function list_the_tasks(){
   const taskLists = Tasks.Tasklists.list();
   if (!taskLists.items) {

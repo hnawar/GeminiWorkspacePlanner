@@ -224,10 +224,6 @@ function onMessage(event) {
   return createCardResponse(sections);
 }
 
-function talkToGemini (action) {
-
-}
-
 
 /**
  * Responds to a CARD_CLICKED event triggered in Google Chat.
@@ -241,7 +237,7 @@ function onCardClick(event) {
   var name = event.user.displayName;
   var cache = CacheService.getScriptCache();
 
-  if (event.action.actionMethodName=="cleatCache")
+  if (event.action.actionMethodName=="clearCache")
   {
     cache.removeAll(['email','pastMeetings', 'fututeMeetings', 'tasks', 'notes'])
     return { text: "Cached cleared" };
